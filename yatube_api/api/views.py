@@ -48,8 +48,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         """Get all comments for the post."""
         post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, pk=post_id)
-        new_queryset = post.comments.all()
-        return new_queryset
+        return post.comments.all()
 
     def perform_create(self, serializer):
         """Crete comment."""
@@ -75,9 +74,7 @@ class FollowViewSet(
 
     def perform_create(self, serializer):
         """Follow author."""
-        user = self.request.user
-        if serializer.is_valid():
-            serializer.save(user=user)
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         """Get list of followers."""
